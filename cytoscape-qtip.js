@@ -209,7 +209,8 @@ SOFTWARE.
 
       // default show event
       opts.show = opts.show || {};
-
+      opts.show.delay = opts.show.delay || 0;
+    
       if( isUndef(opts.show.event) ){
         opts.show.event = 'tap';
       }
@@ -250,7 +251,7 @@ SOFTWARE.
       if( !pos || pos.x == null || isNaN(pos.x) ){ return; }
 
       var bb = isNode ? ele.renderedBoundingBox({
-        includeLabels: false
+        includeLabels: qtip.api.options.includeLabels || false
       }) : {
         x1: pos.x - 1,
         x2: pos.x + 1,
@@ -284,7 +285,8 @@ SOFTWARE.
       var eles = this;
       var cy = this.cy();
       var container = cy.container();
-
+      var showTimeout;
+      
       if( passedOpts === 'api' ){
         return this.scratch().qtip.api;
       }
@@ -301,12 +303,16 @@ SOFTWARE.
 
         updatePosition(ele, qtip);
 
-        ele.on( opts.show.event, function(e){
-          updatePosition(ele, qtip, e);
-          qtipApi.show();
+       ele.on( opts.show.event, function(e){
+          clearTimeout(showTimeout);
+          showTimeout = setTimeout(function(){
+              updatePosition(ele, qtip, e);
+              qtipApi.show();
+          }, opts.show.delay);
         } );
 
         ele.on( opts.hide.event, function(e){
+          clearTimeout(showTimeout);
           qtipApi.hide();
         } );
 
