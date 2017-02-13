@@ -250,7 +250,7 @@ SOFTWARE.
       var pos = isNode ? ele.renderedPosition() : ( e ? e.cyRenderedPosition : undefined );
       if( !pos || pos.x == null || isNaN(pos.x) ){ return; }
 
-      var bb = isNode ? ele.renderedBoundingBox({
+      var bb = (isNode && !ele.isChild()) ? ele.renderedBoundingBox({
         includeLabels: qtip.api.options.includeLabels || false
       }) : {
         x1: pos.x - 1,
