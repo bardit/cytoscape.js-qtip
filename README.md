@@ -1,7 +1,7 @@
 cytoscape-qtip
+==============
 
 This is a fork from cytoscape.js-expand-collapse with some bug fixes.
-==============
 
 ![Preview](https://raw.githubusercontent.com/cytoscape/cytoscape.js-qtip/master/img/preview.png)
 
